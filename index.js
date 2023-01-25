@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 const cors = require('cors');
 
 app.use(cors({
-    origin: '*',
+    origin: req.headers.origin,
     credentials: true,
     allowedHeaders: ['Access-Control-Allow-Origin','Content-Type','Authorization']
 }));
