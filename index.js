@@ -8,9 +8,9 @@ const PORT = process.env.PORT || 5000;
 const cors = require('cors');
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: '*',
     credentials: true,
-    allowedHeaders: ['Access-Control-Allow-Origin'],
+    allowedHeaders: ['Access-Control-Allow-Origin','Content-Type','Authorization']
 }));
 
 app.use(bodyParser.json())
