@@ -6,16 +6,22 @@ const userRoutes = require('./routes/user');
 const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 5000;
 const cors = require('cors');
-
-app.use(cors({
-    origin: req.headers.origin,
+const whitelist = ['http://localhost:3000', 'https://taskmates.vercel.app'];
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
     allowedHeaders: ['Access-Control-Allow-Origin','Content-Type','Authorization']
-}));
+}
 
-app.use(bodyParser.json())
+app.use(cors(corsOptions));
+app.use(bodyParser.json());
 app.use('/auth', authRoutes);
-app.use(bodyParser.json())
 app.use('/user', userRoutes);
 
 app.listen(PORT, () => {
