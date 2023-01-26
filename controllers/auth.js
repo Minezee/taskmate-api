@@ -27,6 +27,7 @@ exports.login = async (req, res) => {
         //buat token
         const token = jwt.sign({ id: user._id }, 'secret_key');
 
+        //kadaluarsa token
         res.cookie('token', token, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
 
         res.json({
@@ -53,7 +54,7 @@ exports.register = async (req, res) => {
             return res.status(400).json({ msg: 'Please enter all fields' });
         }
 
-        //cek email sudah terdaftar
+        //cek email yang sudah terdaftar
         const user = await User.findOne({ email });
         if (user) {
             return res.status(400).json({ msg: 'Email already exists' });

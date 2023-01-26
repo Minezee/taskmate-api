@@ -4,9 +4,9 @@ const app = express();
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const bodyParser = require('body-parser');
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 const cors = require('cors');
-const whitelist = ['http://localhost:3000', 'https://taskmates.vercel.app'];
+const whitelist = ['http://localhost:3000', 'https://taskmates.vercel.app', 'https://taskmate-bccfreepass.vercel.app'];
 const corsOptions = {
     origin: (origin, callback) => {
         if (whitelist.indexOf(origin) !== -1) {
