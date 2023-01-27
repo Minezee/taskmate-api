@@ -71,6 +71,25 @@ exports.updateNote = async (req, res) => {
     }
 }
 
+exports.favoriteNote = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        const noteIndex = user.notes.findIndex(note => note.id === req.params.id);
+
+        if (noteIndex === -1) {
+            return res.status(404).json({ msg: 'Note not found' });
+        }
+
+        user.notes[noteIndex].favorite = !user.notes[noteIndex].favorite;
+        await user.save();
+        res.json(user.notes[noteIndex]);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+}
+
+
 exports.deleteNote = async (req, res) => {
     try {
         const user = await User.findById(req.user.id);

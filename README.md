@@ -15,4 +15,5 @@ First you have to clone and install all the package used here.
 ```
 server will run on localhost:5000
 
-note: whenever you want to open [Taskmates](https://taskmate-bccfreepass.vercel.app/) you should run this server/api
+# Note
+If you want to clone this project you have to create mongo db atlas account and create database, connect the url on the db.js file.
