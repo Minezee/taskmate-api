@@ -10,5 +10,6 @@ router.get('/view_notes/:id', authMiddleware, userController.viewNote);
 router.put('/update_notes/:id', authMiddleware, userController.updateNote);
 router.delete('/delete_notes/:id', authMiddleware, userController.deleteNote);
 router.patch('/favorite_notes/:id', authMiddleware, userController.favoriteNote);
+router.delete('/remove_favnotes/:id')
 
 module.exports = router;
