@@ -9,19 +9,19 @@ exports.login = async (req, res) => {
 
         //validasi input
         if (!email || !password) {
-            return res.status(400).json({ msg: 'Please enter all fields' });
+            return res.status(400).json({ msg: 'Harap isi seluruh field' });
         }
 
         //cek email ada di database
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ msg: 'User not found' });
+            return res.status(400).json({ msg: 'Email atau password salah' });
         }
 
         //cek password sesuai
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ msg: 'Invalid credentials' });
+            return res.status(400).json({ msg: 'Password salah' });
         }
 
         //buat token
@@ -51,13 +51,13 @@ exports.register = async (req, res) => {
 
         //validasi input
         if (!email || !password || !name) {
-            return res.status(400).json({ msg: 'Please enter all fields' });
+            return res.status(400).json({ msg: 'Harap isi seluruh field' });
         }
 
         //cek email yang sudah terdaftar
         const user = await User.findOne({ email });
         if (user) {
-            return res.status(400).json({ msg: 'Email already exists' });
+            return res.status(400).json({ msg: 'Email sudah ada' });
         }
 
         //hash password
