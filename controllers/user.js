@@ -22,8 +22,8 @@ exports.getNotes = async (req, res) => {
 
 exports.addNote = async (req, res) => {
     try {
-        const { title, description } = req.body;
-        const newNote = { title, description };
+        const { title, description, color } = req.body;
+        const newNote = { title, description, color };
         const user = await User.findById(req.user.id);
         user.notes.unshift(newNote);
         await user.save();
@@ -53,7 +53,7 @@ exports.viewNote = async (req, res) => {
 
 exports.updateNote = async (req, res) => {
     try {
-        const { title, description } = req.body;
+        const { title, description, color } = req.body;
         const user = await User.findById(req.user.id);
         const note = user.notes.find(note => note.id === req.params.id);
 
@@ -63,6 +63,7 @@ exports.updateNote = async (req, res) => {
 
         note.title = title;
         note.description = description;
+        note.color = color;
         await user.save();
         res.json(user.notes);
     } catch (err) {

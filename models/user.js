@@ -22,6 +22,11 @@ const noteSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    color: {
+        type: String,
+        default: "white",
+        required: true
+    },
     createdAt: {
         type: String,
         default: formattedToday
