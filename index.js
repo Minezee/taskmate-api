@@ -4,6 +4,7 @@ const app = express();
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const noteRoutes = require('./routes/notes');
+const todoRoutes = require('./routes/todo');
 const bodyParser = require('body-parser');
 const PORT = 5000;
 const cors = require('cors');
@@ -13,7 +14,8 @@ const corsOptions = {
         if (whitelist.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
-            callback(new Error('Not allowed by CORS'));
+            callback(null, true);
+            // callback(new Error('Not allowed by CORS'));
         }
     },
     credentials: true,
@@ -25,6 +27,7 @@ app.use(bodyParser.json());
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/notes', noteRoutes);
+app.use('/todo', todoRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -33,6 +33,29 @@ const noteSchema = new mongoose.Schema({
     }
 });
 
+const todoSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    targets: [
+        {
+            name: {
+                type: String,
+                required: true
+            },
+            checked: {
+                type: Boolean,
+                default: false
+            }
+        }
+    ],
+    completed: {
+        type: Boolean,
+        default: false
+    }
+});
+
 const userSchema = new mongoose.Schema({
     email: {
         type: String,
@@ -48,6 +71,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     notes: [noteSchema],
+    todo: [todoSchema],
     createdAt: {
         type: Date,
         default: Date.now

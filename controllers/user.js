@@ -128,3 +128,89 @@ exports.deleteNote = async (req, res) => {
         res.status(500).send('Server Error');
     }
 }
+
+exports.getTodo = async (req, res) => {
+    try {
+        const todo = await User.findById(req.user.id).select('todo');
+        res.json(todo);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+}
+
+exports.addTodo = async (req, res) => {
+    try {
+        const { title, targets } = req.body;
+        const newTodo = { title, targets };
+        const user = await User.findById(req.user.id);
+        user.todo.unshift(newTodo);
+        await user.save();
+        res.json(user.todo);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+}
+
+exports.viewTodo = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        const todoIndex = user.todo.findIndex(todo => todo.id === req.params.id);
+
+        if (todoIndex === -1) {
+            return res.status(404).json({ msg: 'Todo not found' });
+        }
+
+        const todo = user.todo[todoIndex];
+        res.json({ todo });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+}
+
+exports.updateTodo = async (req, res) => {
+    try {
+        const { title, targets } = req.body;
+        const user = await User.findById(req.user.id);
+        const todo = user.todo.find(todo => todo.id === req.params.id);
+
+        if (!todo) {
+            return res.status(404).json({ msg: 'Todo not found' });
+        }
+
+        todo.title = title;
+        todo.targets = targets;
+
+        // Check if all targets are checked
+        const allTargetsChecked = todo.targets.every(target => target.checked === true);
+        if (allTargetsChecked) {
+            todo.completed = true;
+        }
+        
+        await user.save();
+        res.json(user.todo);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+}
+
+exports.deleteTodo = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        const todoIndex = user.todo.findIndex(todo => todo.id === req.params.id);
+
+        if (todoIndex === -1) {
+            return res.status(404).json({ msg: 'Todo not found' });
+        }
+
+        user.todo.splice(todoIndex, 1);
+        await user.save();
+        res.json(user.todo);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+}
